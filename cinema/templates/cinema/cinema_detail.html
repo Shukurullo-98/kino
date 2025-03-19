@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+
+{% block main %}
+<div class="d-flex justify-content-between mt-5">
+    <div class="col-9">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <h3>{{ cinema.title }}</h3>
+                <div class="d-flex justify-content-between">
+                    {% if request.user == cinema.author %}
+                    <a href="{% url 'update' cinema.pk %}" class="btn btn-warning mx-2">Taxrirlash</a>
+                    <a href="{% url 'delete' cinema.pk %}" class="btn btn-danger mx-2">O'chirish</a>
+                    {% endif %}
+                    <a href="{% url 'index' %}" class="btn btn-secondary mx-2">Qaytish</a>
+                </div>
+            </div>
+
+            <div class="card-body">
+                {% if cinema.video %}
+                <iframe width="100%" height="500" src="{{ cinema.video }}"
+                        title="Тогда. Сейчас. Потом💥⚡Русский трейлер (Дубляж, 2024) Драма. РОБЕРТ ЗЕМЕКИС."
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+
+                </iframe>
+
+                {% else %}
+
+                <img src="{{ cinema.photo.url }}" class="card-img-top" alt="...">
+                {% endif %}
+
+                <div class="d-flex justify-content-between p-2 align-items-center">
+
+                    <div class="d-flex justify-content-between  align-items-center">
+                        <img src="{{ profile.get_photo_user }}" alt="" height="50" width="50" class="rounded-circle">
+                        <h4 class="mx-3">Avtor: <a href="{% url 'profile' cinema.author.pk %}">
+                            {{ cinema.author }}
+                        </a></h4>
+                    </div>
+                    <p>{{ cinema.created_at }}</p>
+                </div>
+                <h2>{{ cinema.category }}</h2>
+                <p>{{ cinema.context|linebreaks }}</p>
+                <span>Ko'rishlar soni : {{ cinema.views }}</span>
+            </div>
+
+
+        </div>
+
+        <div class="card mt-4 p-3 bg-dark border-light text-light mb-5">
+            {% if request.user.is_authenticated %}
+            <form action="{% url 'save_comment' cinema.pk %}" method="post">
+                {% csrf_token %}
+                {{ forms.as_p }}
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-secondary">Kommentariya qoldirish</button>
+                </div>
+            </form>
+            {% else %}
+            <p class="text-light">Komment qoldirish uchun
+                <a href="{% url 'login' %}">Kirish</a> yoki
+                <a href="{% url 'register' %}">Ro'yxatdan o'tish</a>
+            </p>
+            {% endif %}
+        </div>
+
+        {% for comment in comments %}
+        <div class="card mt-4 p-3 bg-dark border-light text-light mb-5">
+            <h3>{{ comment.user.username }}</h3>
+            <p class="small">{{ comment.created_at}}</p>
+            <p>{{ comment.text }}</p>
+        </div>
+        {% endfor %}
+
+    </div>
+    <div class="col-3 mx-3">
+        {% for cin in cinemas %}
+
+        <a href="{{ cin.get_absolute_url }}" class="card mb-3">
+            {% if cin.photo %}
+            <img height="200px" src="{{ cin.photo.url }}" class="card-img-top" alt="">
+            {% else %}
+            <img src="{{ cin.photo.url }}" class="card-img-top" height="300px" alt="">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{cin.title}}</h5>
+            </div>
+        </a>
+        {% endfor %}
+
+    </div>
+</div>
+
+
+{% endblock main %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block main %}
+{% if request.user.is_authenticated %}
+<div class="d-flex justify-content-center mt-4">
+    <div class="col-8 card p-4">
+        <div class="text-center text-light">{{ title }}</div>
+        <form action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <div class="d-flex justify-content-between mt-3">
+                <a href="{% url 'index' %}" class="btn btn-success">Qaytish</a>
+                <button class="btn btn-secondary  " type="submit">
+                    {% if 'update' in request.path %}
+                    Taxrirlash
+                    {% else %}
+                    Add Film
+                    {% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+
+{% endblock main %}

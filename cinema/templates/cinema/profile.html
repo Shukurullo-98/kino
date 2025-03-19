@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block main %}
+
+<section class="bg-dark">
+    <div class="container py-5 mt-4">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <img src="{{ profile.get_photo_user }}"
+                             alt="avatar"
+                             class="rounded-circle img-fluid" style="width: 150px;">
+                        <h5 class="my-3">{{ profile.user.username }}</h5>
+                        <p class="text-muted mb-1">{{ profile.about_user }}</p>
+
+                        <div class="d-flex justify-content-center mb-2">
+                            {% if request.user == profile.user %}
+                            <a href="{% url 'edit_account' %}" type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-primary">
+                                Akkauntni taxrirlash
+                            </a>
+                            <a href="{% url 'edit_profile' %}" type="button" data-mdb-button-init data-mdb-ripple-init
+                               class="btn btn-outline-primary ms-1">Profilni taxrirlash
+                            </a>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Full Name</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ profile.user.first_name }}  {{ profile.user.last_name }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Email</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ profile.user.email }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">Phone</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ profile.phone_number }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <p class="mb-0">About</p>
+                            </div>
+                            <div class="col-sm-9">
+                                <p class="text-muted mb-0">{{ profile.about_user }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-4 mb-md-0">
+                            <div class="card-body">
+                                <h6 class="d-flex align-items-center mb-3">Popular</h6>
+                                {% if most_viewed %}
+                                <a href="{{ most_viewed.get_absolute_url }}" class="d-flex justify-content-between align-items-center">
+                                    <img src="{{ most_viewed.get_photo_cinema }}" alt="" width="100" height="100" class="rounded">
+                                    <h5>{{ most_viewed.title }}</h5>
+                                </a>
+                                {% else %}
+                                <h5>Populyar filmlar yo'q</h5>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card mb-4 mb-md-0">
+                            <div class="card-body">
+                                <h6 class="d-flex align-items-center mb-3">Yangi</h6>
+                                {% if recent_cinema %}
+                                <a href="{{ recent_cinema.get_absolute_url }}" class="d-flex justify-content-between align-items-center">
+                                    <img src="{{ recent_cinema.get_photo_cinema }}" alt="" width="100" height="100" class="rounded">
+                                    <h5>{{ recent_cinema.title }}</h5>
+                                </a>
+                                {% else %}
+                                <h5>Populyar filmlar yo'q</h5>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock main %}

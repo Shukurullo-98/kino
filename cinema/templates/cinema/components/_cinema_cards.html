@@ -1,0 +1,18 @@
+
+
+
+<a href="{{ cin.get_absolute_url}}" class="card link-underline-light">
+    {% if cin.photo %}
+    <img height="300px" src="{{ cin.photo.url }}" class="card-img-top" alt="">
+    {% else %}
+    <img src="{{ cin.photo.url }}" class="card-img-top" height="300px" alt="">
+    {% endif %}
+    <div class="card-body" style="height: 200px">
+        <h5 class="card-title">{{cin.title}}</h5>
+        <p class="card-text">{{cin.context|truncatechars:200}}</p>
+    </div>
+    <div class="d-flex justify-content-between p-2">
+        <span>{{cin.views}}</span>
+        <span>{{cin.created_at}}</span>
+    </div>
+</a>

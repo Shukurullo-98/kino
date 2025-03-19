@@ -1,0 +1,10 @@
+{% load cinema_tags %}
+
+
+<nav class="nav nav-underline justify-content-center flex-column">
+    <a class="nav-item nav-link link-light " href="{% url 'index' %}">Barcha filmlar</a>
+    {% get_categories as categories %}
+    {% for cat in categories %}
+    <a class="nav-item nav-link link-light" href="{{ cat.get_absolute_url }}">{{cat.title}}</a>
+    {% endfor %}
+</nav>

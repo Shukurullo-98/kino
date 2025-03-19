@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block main %}
+
+<div class="d-flex justify-content-center mt-4">
+  {% if request.user == cinema.author %}
+  <form action="" method="post">
+    {% csrf_token %}
+    <p class="text-light">Siz xaqiqatdan ham ushbu filmni o'chirmoqchimisiz: {{ cinema.title }} ?</p>
+    <div class="d-flex justify-content-center mt-4">
+      <button type="submit" class="btn btn-danger mx-3">Ha, o'chirish</button>
+      <a href="{{ cinema.get_absolute_url }}" class="btn btn-success">Qaytish</a>
+    </div>
+  </form>
+  {% else %}
+  <h3 class="text-light">Post egasi o'chirishi mumkin</h3>
+  {% endif %}
+</div>
+
+{% endblock main %}
